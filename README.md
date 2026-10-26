@@ -67,7 +67,7 @@ LivreAGPIA/
 │   │       ├── font/                  # noto_sans_coptic.ttf
 │   │       └── values-ar/             # Interface en arabe
 │   └── build.gradle
-├── scripts/                # Scripts utilitaires (build_content_manifest.py, extraction, nettoyage Gradle)
+├── scripts/                # build_content_manifest.py (validation du contenu + manifeste)
 └── gradle/                 # Wrapper Gradle
 ```
 
@@ -94,8 +94,7 @@ LivreAGPIA/
   Chenouda III ; compilé et traduit par le sous-diacre Naguy Wasfy, revu et corrigé par le père Moussa
   Anba Bishoy et Mme Nadia Simaika-Kelada Antoun, mise en page Magdalena Prod'homme. Le texte a été relu
   depuis l'édition PDF fournie par l'auteur du projet.
-- **Formules et répons coptes, séquence des heures** : complétés d'après les supports de prière
-  (PowerPoint) fournis par l'auteur du projet.
+- **Formules et répons coptes** : texte liturgique copte traditionnel.
 - **Texte arabe** : [st-takla.org](https://st-takla.org/Agpeya_.html) (« الأجبية »), pages des heures
   (`https://st-takla.org/Agpeya/…`) et prières diverses (`https://st-takla.org/Prayers-Slawat/…`).
 - **Icônes des heures** : illustrations du livre français.
