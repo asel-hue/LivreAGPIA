@@ -45,6 +45,13 @@ class SectionAdapter(
         /** Taille des titres de parties par rapport au corps de texte (sp), identique pour tous. */
         const val TITLE_EXTRA_SP = 2f
 
+        /** Psaumes dépliés à l'ouverture d'une heure (le Psaume 50 se prie à chaque heure). */
+        val PSALMS_EXPANDED_BY_DEFAULT = setOf(50)
+
+        /** Numéro d'un psaume d'après le titre de la langue principale (« Psaume 50 », « مزمور 50 »…). */
+        private val PSALM_NUMBER = Regex("\\d+")
+        fun psalmNumber(title: String): Int? = PSALM_NUMBER.find(title)?.value?.toIntOrNull()
+
         /** Retrait de début des parties d'un service (dp), en plus du retrait normal. */
         const val GROUP_INDENT_DP = 12
         const val ROOT_PADDING_START_DP = 16
@@ -200,14 +207,18 @@ class SectionAdapter(
 
     /**
      * Remplace l'état déplié sans notifier (à appeler avant [setSections]) :
-     * tout déplié si [expandAll], sinon psaumes repliés et autres parties dépliées ;
-     * les services sont toujours dépliés à l'ouverture d'une heure.
+     * tout déplié si [expandAll], sinon psaumes repliés (sauf [PSALMS_EXPANDED_BY_DEFAULT]) et autres
+     * parties dépliées ; les services sont toujours dépliés à l'ouverture d'une heure.
      */
     fun resetExpanded(expandAll: Boolean, sections: List<SectionPair>) {
         expandedIds.clear()
         collapsedGroupIds.clear()
-        sections.filter { it.hasBody && (expandAll || !it.isPsalm) }.forEach { expandedIds.add(it.id) }
+        sections.filter { it.hasBody && (expandAll || !it.isPsalm || isExpandedByDefault(it)) }
+            .forEach { expandedIds.add(it.id) }
     }
+
+    private fun isExpandedByDefault(section: SectionPair): Boolean =
+        psalmNumber(section.primary.title) in PSALMS_EXPANDED_BY_DEFAULT
 
     fun refreshSection(sectionId: Int) {
         val position = positionOf(sectionId)
