@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Livre AGPIA</string>
+    <string name="home_title">Prières des heures</string>
+    <string name="reading_title">Lecture</string>
+    <string name="resume_reading">Reprendre la lecture</string>
+    <string name="previous_chapter">Précédent</string>
+    <string name="next_chapter">Suivant</string>
+    <string name="home">Accueil</string>
+    <string name="title_with_section">%1$s · %2$s</string>
+    <string name="hour_image">Illustration de l\'heure</string>
+
+    <string name="search">Rechercher</string>
+    <string name="search_hint">Rechercher dans le livre…</string>
+    <string name="no_results_found">Aucun résultat trouvé pour « %1$s »</string>
+
+    <string name="settings">Paramètres</string>
+    <string name="settings_section_text">Texte</string>
+    <string name="settings_section_language">Langue</string>
+    <string name="settings_section_appearance">Apparence</string>
+    <string name="font_size">Taille du texte</string>
+    <string name="font_size_value">%1$d sp</string>
+    <string name="font_size_preview">Au nom du Père, du Fils et du Saint Esprit, un seul Dieu. Amen !</string>
+    <string name="font_size_preview_title">Psaume 50</string>
+    <string name="section_title_alignment">Titres des parties</string>
+    <string name="align_start">Alignés au début</string>
+    <string name="align_center">Centrés</string>
+    <string name="text_larger">Agrandir le texte</string>
+    <string name="text_smaller">Réduire le texte</string>
+    <string name="theme">Thème</string>
+    <string name="theme_system">Système</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+
+    <string name="content_language">Langue du contenu</string>
+    <string name="content_language_hint">Les prières s\'affichent dans la langue choisie ; le mode bilingue met le français et l\'arabe côte à côte. Les marque-pages sont communs à toutes les langues.</string>
+    <string name="language_french">Français</string>
+    <string name="language_arabic">العربية</string>
+    <string name="language_both">Français + العربية</string>
+    <string name="switch_language">Changer de langue</string>
+    <string name="content_language_set">Contenu : %1$s</string>
+
+    <string name="bookmark">Marque-page</string>
+    <string name="bookmarks">Marque-pages</string>
+    <string name="add_bookmark">Ajouter un marque-page</string>
+    <string name="remove_bookmark">Retirer le marque-page</string>
+    <string name="bookmark_added">Marque-page ajouté</string>
+    <string name="bookmark_removed">Marque-page retiré</string>
+    <string name="no_bookmarks">Aucun marque-page.\nDepuis une prière, touchez ⋮ puis « Ajouter un marque-page ».</string>
+
+    <string name="share">Partager</string>
+    <string name="share_via">Partager via</string>
+
+    <string name="expand_section">Déplier</string>
+    <string name="collapse_section">Replier</string>
+    <string name="state_expanded">Déplié</string>
+    <string name="state_collapsed">Replié</string>
+    <string name="expand_all">Tout agrandir</string>
+    <string name="collapse_all">Tout réduire</string>
+    <string name="more_actions">Plus d\'actions</string>
+
+    <string name="navigation_drawer_open">Ouvrir le menu des heures</string>
+    <string name="navigation_drawer_close">Fermer le menu des heures</string>
+</resources>

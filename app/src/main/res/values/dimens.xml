@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hauteur maximale de l'illustration d'une heure dans l'en-tête de lecture (image entière, non recadrée). -->
+    <dimen name="hour_image_max_height">260dp</dimen>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Variante sombre : primaire plus claire pour le contraste sur fond sombre -->
+    <color name="agpia_primary">#FFD0BCFF</color>
+    <color name="agpia_on_primary">#FF381E72</color>
+    <color name="agpia_primary_container">#FF4F378B</color>
+    <color name="agpia_on_primary_container">#FFEADDFF</color>
+    <color name="agpia_secondary">#FFE2C46B</color>
+    <color name="agpia_on_secondary">#FF3F2E00</color>
+</resources>

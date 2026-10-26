@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Les illustrations des heures sont résolues dynamiquement (resources.getIdentifier("hour_N")) :
+    on les protège du réducteur de ressources (shrinkResources) et de l'avertissement UnusedResources.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/hour_*,@drawable/cover" />

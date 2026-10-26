@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    En-tête d'une heure dans l'écran de lecture : titre complet (ligne arabe en dessous en bilingue),
+    accent souligné, puis illustration (hour_N.webp, masquée si absente).
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/headerRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:id="@+id/textViewChapterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.LivreAGPIA.ChapterTitle"
+        tools:text="Prière de la troisième heure" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:dividerColor="?attr/colorPrimary"
+        app:dividerThickness="3dp" />
+
+    <!--
+        Les icônes sont au format portrait : on les montre entières (fitCenter, hauteur bornée),
+        centrées sur un fond discret qui occupe toute la largeur, sans recadrage des visages.
+    -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardHourImage"
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+        app:cardCornerRadius="16dp"
+        app:contentPadding="10dp"
+        tools:visibility="visible">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/hour_image"
+            android:maxHeight="@dimen/hour_image_max_height"
+            android:scaleType="fitCenter"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.LivreAGPIA.HourImage"
+            tools:background="?attr/colorPrimaryContainer"
+            tools:layout_height="200dp"
+            tools:layout_width="150dp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

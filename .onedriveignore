@@ -1,0 +1,13 @@
+# Exclure les dossiers de build de OneDrive
+build/
+.gradle/
+*.iml
+.idea/
+local.properties
+*.log
+captures/
+.externalNativeBuild
+.cxx/
+
+
+

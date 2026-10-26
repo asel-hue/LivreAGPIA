@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">كتاب الأجبية</string>
+    <string name="home_title">صلوات السواعي</string>
+    <string name="reading_title">قراءة</string>
+    <string name="resume_reading">متابعة القراءة</string>
+    <string name="previous_chapter">السابق</string>
+    <string name="next_chapter">التالي</string>
+    <string name="home">الرئيسية</string>
+    <string name="title_with_section">%1$s · %2$s</string>
+    <string name="hour_image">صورة الساعة</string>
+
+    <string name="search">بحث</string>
+    <string name="search_hint">ابحث في الكتاب…</string>
+    <string name="no_results_found">لا توجد نتائج لـ « %1$s »</string>
+
+    <string name="settings">الإعدادات</string>
+    <string name="settings_section_text">النص</string>
+    <string name="settings_section_language">اللغة</string>
+    <string name="settings_section_appearance">المظهر</string>
+    <string name="font_size">حجم النص</string>
+    <string name="font_size_value">%1$d sp</string>
+    <string name="font_size_preview">باسم الآب والابن والروح القدس، الإله الواحد. آمين.</string>
+    <string name="font_size_preview_title">مزمور 50</string>
+    <string name="section_title_alignment">عناوين الأجزاء</string>
+    <string name="align_start">محاذاة إلى البداية</string>
+    <string name="align_center">في الوسط</string>
+    <string name="text_larger">تكبير النص</string>
+    <string name="text_smaller">تصغير النص</string>
+    <string name="theme">السمة</string>
+    <string name="theme_system">النظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+
+    <string name="content_language">لغة المحتوى</string>
+    <string name="content_language_hint">تُعرض الصلوات باللغة المختارة؛ الوضع الثنائي يعرض الفرنسية والعربية جنبًا إلى جنب. العلامات المرجعية مشتركة بين جميع اللغات.</string>
+    <string name="language_french">Français</string>
+    <string name="language_arabic">العربية</string>
+    <string name="language_both">Français + العربية</string>
+    <string name="switch_language">تغيير اللغة</string>
+    <string name="content_language_set">المحتوى: %1$s</string>
+
+    <string name="bookmark">علامة مرجعية</string>
+    <string name="bookmarks">العلامات المرجعية</string>
+    <string name="add_bookmark">إضافة علامة مرجعية</string>
+    <string name="remove_bookmark">إزالة العلامة المرجعية</string>
+    <string name="bookmark_added">تمت إضافة العلامة المرجعية</string>
+    <string name="bookmark_removed">تمت إزالة العلامة المرجعية</string>
+    <string name="no_bookmarks">لا توجد علامات مرجعية.\nمن داخل صلاة، اضغط ⋮ ثم « إضافة علامة مرجعية ».</string>
+
+    <string name="share">مشاركة</string>
+    <string name="share_via">مشاركة عبر</string>
+
+    <string name="expand_section">توسيع</string>
+    <string name="collapse_section">طيّ</string>
+    <string name="state_expanded">موسَّع</string>
+    <string name="state_collapsed">مطويّ</string>
+    <string name="expand_all">توسيع الكل</string>
+    <string name="collapse_all">طيّ الكل</string>
+    <string name="more_actions">المزيد من الإجراءات</string>
+
+    <string name="navigation_drawer_open">فتح قائمة السواعي</string>
+    <string name="navigation_drawer_close">إغلاق قائمة السواعي</string>
+</resources>

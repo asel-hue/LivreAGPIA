@@ -1,0 +1,5 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// AGP 9.x embarque le support Kotlin : le plugin org.jetbrains.kotlin.android ne doit plus être appliqué.
+plugins {
+    id 'com.android.application' version '9.2.1' apply false
+}

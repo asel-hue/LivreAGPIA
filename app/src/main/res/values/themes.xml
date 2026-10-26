@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Thème Material 3 clair/sombre, sans ActionBar système (chaque écran a sa Toolbar).
+        Les barres système sont transparentes (edge-to-edge) : les insets sont gérés par les vues.
+    -->
+    <style name="Theme.LivreAGPIA" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/agpia_primary</item>
+        <item name="colorOnPrimary">@color/agpia_on_primary</item>
+        <item name="colorPrimaryContainer">@color/agpia_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/agpia_on_primary_container</item>
+        <item name="colorSecondary">@color/agpia_secondary</item>
+        <item name="colorOnSecondary">@color/agpia_on_secondary</item>
+    </style>
+
+    <!-- Texte de lecture : police serif (comme l'application Agpia d'origine et Coptic Reader). -->
+    <style name="TextAppearance.LivreAGPIA.Reading" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">serif</item>
+        <item name="fontFamily">serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Titre de rubrique (partie) : serif gras, aligné au début. -->
+    <style name="TextAppearance.LivreAGPIA.ReadingTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">serif</item>
+        <item name="fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Titre d'une heure dans l'en-tête de lecture. -->
+    <style name="TextAppearance.LivreAGPIA.ChapterTitle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">serif</item>
+        <item name="fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Titre d'une heure dans la liste d'accueil. -->
+    <style name="TextAppearance.LivreAGPIA.ListTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">serif</item>
+        <item name="fontFamily">serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Bandeau de rubrique des paramètres (comme les en-têtes de section de Coptic Reader). -->
+    <style name="TextAppearance.LivreAGPIA.SettingsHeader" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">serif</item>
+        <item name="fontFamily">serif</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+    </style>
+
+    <style name="Widget.LivreAGPIA.SettingsHeader" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/colorPrimaryContainer</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.LivreAGPIA.SettingsHeader</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="ShapeAppearance.LivreAGPIA.HourImage" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerSize">12dp</item>
+    </style>
+</resources>

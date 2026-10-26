@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Bascule « Tout agrandir / Tout réduire » : bouton icône + libellé toujours visible. -->
+    <item
+        android:id="@+id/action_expand_all"
+        android:icon="@drawable/ic_unfold_more"
+        android:title="@string/expand_all"
+        app:actionLayout="@layout/action_expand_all"
+        app:showAsAction="ifRoom" />
+
+    <!-- Bascule rapide de la langue du contenu (Français / Arabe). -->
+    <item
+        android:id="@+id/action_language"
+        android:icon="@drawable/ic_translate"
+        android:title="@string/switch_language"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_bookmarks"
+        android:icon="@drawable/ic_bookmark_border"
+        android:title="@string/bookmarks"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_text_larger"
+        android:title="@string/text_larger"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_text_smaller"
+        android:title="@string/text_smaller"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+
+</menu>
