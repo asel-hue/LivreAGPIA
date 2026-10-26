@@ -89,19 +89,22 @@ LivreAGPIA/
 
 ## 🔄 Mise à jour du contenu
 
-L'application vérifie au plus une fois par 24 h (ou via *Paramètres → Vérifier les mises à jour*) si
-une version plus récente du contenu est publiée sur GitHub
+La mise à jour est entièrement silencieuse : au lancement, au plus une fois par semaine et sur un thread
+de fond, l'application regarde si une version plus récente du contenu est publiée sur GitHub
 (`raw.githubusercontent.com/asel-hue/LivreAGPIA/main/app/src/main/assets/book/`). Seuls les fichiers
 dont l'empreinte a changé sont téléchargés ; tout est vérifié (sha256, schéma JSON, cohérence entre
-langues) avant un basculement atomique. En cas d'erreur, le contenu précédent est conservé.
-*Paramètres → Restaurer le contenu embarqué* revient au contenu livré avec l'APK.
+langues) avant un basculement atomique. Rien n'est affiché et l'écran en cours n'est pas modifié : le
+nouveau contenu est servi au prochain chargement d'une heure ou au prochain lancement. En cas d'erreur
+(hors ligne, fichier invalide), le contenu précédent est conservé. *Paramètres → Contenu* indique la
+version affichée ; *Restaurer le contenu embarqué* revient au contenu livré avec l'APK.
 
 Pour publier une mise à jour :
 
 1. Modifier les JSON dans `app/src/main/assets/book/<lang>/`.
 2. Lancer `python scripts/build_content_manifest.py` (valide le schéma, recalcule les empreintes,
    incrémente `contentVersion`).
-3. Commit + push sur `main` : les applications installées récupèrent la mise à jour sous 24 h.
+3. Commit + push sur `main` : les applications installées récupèrent la mise à jour dans la semaine,
+   au lancement suivant.
 
 Pour ajouter une langue : créer `assets/book/<code>/chapter1.json … chapter10.json` (mêmes `id` que
 le FR), ajouter une entrée dans `languages` du manifeste (`code`, `name`, `nativeName`, `rtl`,

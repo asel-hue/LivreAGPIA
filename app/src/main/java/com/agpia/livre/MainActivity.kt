@@ -19,7 +19,6 @@ import com.agpia.livre.ui.SearchActivity
 import com.agpia.livre.ui.SettingsActivity
 import com.agpia.livre.utils.PreferencesManager
 import com.agpia.livre.utils.applySystemBarInsets
-import com.google.android.material.snackbar.Snackbar
 
 /** Accueil : liste des heures de prière + reprise de la dernière lecture. */
 class MainActivity : AppCompatActivity() {
@@ -54,18 +53,9 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         binding.cardResume.setOnClickListener { openReading(prefsManager.getLastChapter()) }
 
-        // Vérification silencieuse des mises à jour du contenu (au plus une fois par 24 h).
-        ContentUpdater.checkIfDue(this) { result ->
-            if (isDestroyed) return@checkIfDue
-            if (result is ContentUpdater.Result.Updated) {
-                refreshChapters()
-                Snackbar.make(
-                    binding.root,
-                    getString(R.string.update_installed, result.version),
-                    Snackbar.LENGTH_LONG
-                ).show()
-            }
-        }
+        // Vérification silencieuse des mises à jour du contenu, en arrière-plan (au plus une fois par semaine).
+        // Rien n'est affiché : un nouveau contenu est pris en compte au prochain chargement d'une heure.
+        ContentUpdater.checkIfDue(this)
     }
 
     override fun onResume() {

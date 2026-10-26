@@ -252,11 +252,6 @@ object BookRepository {
     var source: Source = Source.EMBEDDED
         private set
 
-    /** Incrémenté à chaque [reload] : les écrans s'en servent pour savoir s'ils doivent se rafraîchir. */
-    @Volatile
-    var generation: Int = 0
-        private set
-
     /** Cache : langue -> (numéro -> chapitre ou null si absent/invalide). */
     private val cache = HashMap<String, HashMap<Int, Chapter?>>()
 
@@ -268,13 +263,16 @@ object BookRepository {
         selectSource(app)
     }
 
-    /** Relit les manifestes et vide le cache mémoire (après une mise à jour ou une restauration). */
+    /**
+     * Relit les manifestes et vide le cache mémoire (après une mise à jour ou une restauration).
+     * Les écrans déjà affichés gardent leur contenu ; le nouveau est servi au prochain chargement
+     * d'une heure.
+     */
     @Synchronized
     fun reload() {
         val app = appContext ?: return
         cache.clear()
         selectSource(app)
-        generation++
     }
 
     fun downloadDir(context: Context): File = File(context.filesDir, DOWNLOAD_DIR)

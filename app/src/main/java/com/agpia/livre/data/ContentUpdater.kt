@@ -31,7 +31,8 @@ object ContentUpdater {
     private const val TAG = "ContentUpdater"
     private const val TIMEOUT_MS = 10_000
     private const val MAX_FILE_BYTES = 8L * 1024 * 1024
-    private const val CHECK_INTERVAL_MS = 24L * 60 * 60 * 1000
+    /** Le contenu change rarement : une vérification par semaine suffit. */
+    private const val CHECK_INTERVAL_MS = 7L * 24 * 60 * 60 * 1000
 
     sealed class Result {
         object UpToDate : Result()
@@ -54,8 +55,12 @@ object ContentUpdater {
         return if (url.endsWith("/")) url else "$url/"
     }
 
-    /** Vérification silencieuse au démarrage, au plus une fois par 24 h. */
-    fun checkIfDue(context: Context, callback: (Result) -> Unit) {
+    /**
+     * Vérification silencieuse au démarrage, au plus une fois par [CHECK_INTERVAL_MS].
+     * Aucune interface n'est affichée : un contenu téléchargé est servi au prochain chargement
+     * d'une heure ou au prochain lancement, sans toucher à l'écran en cours.
+     */
+    fun checkIfDue(context: Context, callback: ((Result) -> Unit)? = null) {
         val prefs = PreferencesManager(context)
         val last = prefs.getLastUpdateCheck()
         val now = System.currentTimeMillis()
@@ -63,8 +68,8 @@ object ContentUpdater {
         check(context, callback)
     }
 
-    /** Vérification immédiate (bouton des Paramètres). Une seule à la fois. */
-    fun check(context: Context, callback: (Result) -> Unit) {
+    /** Vérification immédiate sur le thread de fond. Une seule à la fois ; résultat optionnel sur le thread principal. */
+    fun check(context: Context, callback: ((Result) -> Unit)? = null) {
         val app = context.applicationContext
         if (!running.compareAndSet(false, true)) return
         executor.execute {
@@ -80,7 +85,7 @@ object ContentUpdater {
                 PreferencesManager(app).setLastUpdateCheck(System.currentTimeMillis())
                 running.set(false)
             }
-            mainHandler.post { callback(result) }
+            if (callback != null) mainHandler.post { callback(result) }
         }
     }
 

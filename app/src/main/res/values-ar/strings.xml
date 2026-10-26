@@ -46,13 +46,7 @@
     <string name="content_version">إصدار المحتوى: %1$d (%2$s) — المصدر: %3$s</string>
     <string name="content_source_embedded">مضمّن</string>
     <string name="content_source_downloaded">منزَّل</string>
-    <string name="check_updates">التحقق من التحديثات</string>
     <string name="restore_embedded_content">استعادة المحتوى المضمّن</string>
-    <string name="update_checking">جارٍ التحقق…</string>
-    <string name="update_up_to_date">المحتوى محدَّث</string>
-    <string name="update_installed">تم تحديث المحتوى (الإصدار %1$d)</string>
-    <string name="update_network_error">خطأ في الشبكة: تعذّر التحقق من التحديثات</string>
-    <string name="update_invalid">رُفض التحديث: المحتوى البعيد غير صالح</string>
     <string name="content_restored">تمت استعادة المحتوى المضمّن</string>
     <string name="content_url_override_title">عنوان المحتوى (تصحيح)</string>
     <string name="content_url_override_hint">فارغ = العنوان الافتراضي</string>
@@ -70,7 +64,7 @@
     <string name="about_rights_title">الحقوق والرخصة</string>
     <string name="about_rights_text"><![CDATA[تبقى النصوص الليتورجية والترجمات والصور منسوبة إلى مؤلفيها وناشريها.<br/><br/>الشفرة المصدرية للتطبيق منشورة بموجب رخصة PolyForm Noncommercial 1.0.0: الاستخدام والتعديل وإعادة التوزيع مسموح بها لأغراض غير تجارية؛ ويتطلب أي استخدام تجاري موافقة المؤلف.<br/><br/>الشفرة المصدرية: <a href="https://github.com/asel-hue/LivreAGPIA">github.com/asel-hue/LivreAGPIA</a>]]></string>
     <string name="about_privacy_title">الخصوصية</string>
-    <string name="about_privacy_text">لا تُجمع أي بيانات. تبقى التفضيلات والعلامات المرجعية على الجهاز. التحقق من تحديثات المحتوى يتصل فقط بـ GitHub (raw.githubusercontent.com) لتنزيل النصوص.</string>
+    <string name="about_privacy_text">لا تُجمع أي بيانات. تبقى التفضيلات والعلامات المرجعية على الجهاز. التحديث التلقائي للمحتوى (مرة في الأسبوع على الأكثر، دون أي إشعار) يتصل فقط بـ GitHub (raw.githubusercontent.com) لتنزيل النصوص.</string>
 
     <string name="bookmark">علامة مرجعية</string>
     <string name="bookmarks">العلامات المرجعية</string>

@@ -166,7 +166,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setupContent() {
         refreshContentInfo()
-        binding.buttonCheckUpdates.setOnClickListener { checkUpdates() }
         binding.buttonRestoreEmbedded.setOnClickListener {
             ContentUpdater.restoreEmbedded(this)
             setResult(RESULT_OK)
@@ -191,26 +190,6 @@ class SettingsActivity : AppCompatActivity() {
         binding.buttonRestoreEmbedded.isEnabled = BookRepository.source == BookRepository.Source.DOWNLOADED
     }
 
-    private fun checkUpdates() {
-        binding.buttonCheckUpdates.isEnabled = false
-        showStatus(getString(R.string.update_checking))
-        ContentUpdater.check(this) { result ->
-            if (isDestroyed) return@check
-            binding.buttonCheckUpdates.isEnabled = true
-            val message = when (result) {
-                ContentUpdater.Result.UpToDate -> getString(R.string.update_up_to_date)
-                is ContentUpdater.Result.Updated -> {
-                    setResult(RESULT_OK)
-                    getString(R.string.update_installed, result.version)
-                }
-                is ContentUpdater.Result.Failed ->
-                    getString(if (result.network) R.string.update_network_error else R.string.update_invalid)
-            }
-            refreshContentInfo()
-            showStatus(message)
-        }
-    }
-
     private fun showStatus(message: String) {
         binding.textViewUpdateStatus.text = message
         binding.textViewUpdateStatus.isVisible = true
@@ -229,6 +208,8 @@ class SettingsActivity : AppCompatActivity() {
             .setPositiveButton(R.string.ok) { _, _ ->
                 prefsManager.setContentBaseUrlOverride(input.text?.toString())
                 showStatus(ContentUpdater.baseUrl(this))
+                // Debug : déclenche immédiatement une vérification silencieuse pour tester le serveur.
+                ContentUpdater.check(this) { if (!isDestroyed) refreshContentInfo() }
             }
             .setNegativeButton(R.string.cancel, null)
             .show()

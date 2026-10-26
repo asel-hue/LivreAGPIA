@@ -61,17 +61,6 @@ class ReadingActivity : AppCompatActivity() {
         private const val ID_SECONDARY_NONE = 1001
     }
 
-    /** Génération du contenu affiché : si le dépôt a été rechargé (mise à jour), l'heure est relue. */
-    private var loadedGeneration = -1
-
-    override fun onResume() {
-        super.onResume()
-        if (loadedGeneration != -1 && loadedGeneration != BookRepository.generation) {
-            populateDrawerMenu()
-            loadChapter(currentChapterNumber, resetExpanded = false)
-        }
-    }
-
     private val settingsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -232,7 +221,6 @@ class ReadingActivity : AppCompatActivity() {
             secondaryLanguage = if (view.bilingual) BookRepository.secondaryLanguage else null,
             secondaryRtl = view.secondaryRtl
         )
-        loadedGeneration = BookRepository.generation
         // À l'ouverture d'une heure, les parties suivent le réglage « Tout agrandir » mémorisé
         // (sinon : psaumes repliés, reste déplié).
         if (resetExpanded) sectionAdapter.resetExpanded(prefsManager.isExpandAll(), view.sections)

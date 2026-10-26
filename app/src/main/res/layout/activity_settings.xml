@@ -302,30 +302,14 @@
                     tools:text="Le contenu est à jour"
                     tools:visibility="visible" />
 
-                <LinearLayout
+                <!-- La mise à jour du contenu est automatique et silencieuse ; seule la restauration est proposée. -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonRestoreEmbedded"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonCheckUpdates"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/check_updates" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonRestoreEmbedded"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/restore_embedded_content" />
-
-                </LinearLayout>
+                    android:text="@string/restore_embedded_content" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonAbout"

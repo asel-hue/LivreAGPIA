@@ -46,13 +46,7 @@
     <string name="content_version">Version du contenu : %1$d (%2$s) — source : %3$s</string>
     <string name="content_source_embedded">embarquée</string>
     <string name="content_source_downloaded">téléchargée</string>
-    <string name="check_updates">Vérifier les mises à jour</string>
     <string name="restore_embedded_content">Restaurer le contenu embarqué</string>
-    <string name="update_checking">Vérification en cours…</string>
-    <string name="update_up_to_date">Le contenu est à jour</string>
-    <string name="update_installed">Contenu mis à jour (version %1$d)</string>
-    <string name="update_network_error">Erreur réseau : impossible de vérifier les mises à jour</string>
-    <string name="update_invalid">Mise à jour refusée : contenu distant invalide</string>
     <string name="content_restored">Contenu embarqué restauré</string>
     <string name="content_url_override_title">URL de contenu (debug)</string>
     <string name="content_url_override_hint">Vide = URL par défaut</string>
@@ -70,7 +64,7 @@
     <string name="about_rights_title">Droits et licence</string>
     <string name="about_rights_text"><![CDATA[Les textes liturgiques, traductions et illustrations restent attribués à leurs auteurs et éditeurs respectifs.<br/><br/>Le code source de l’application est publié sous licence PolyForm Noncommercial 1.0.0 : utilisation, modification et redistribution libres à des fins non commerciales ; tout usage commercial nécessite l’accord de l’auteur.<br/><br/>Code source : <a href="https://github.com/asel-hue/LivreAGPIA">github.com/asel-hue/LivreAGPIA</a>]]></string>
     <string name="about_privacy_title">Confidentialité</string>
-    <string name="about_privacy_text">Aucune donnée n\'est collectée. Les préférences et les marque-pages restent sur l\'appareil. La vérification des mises à jour du contenu contacte uniquement GitHub (raw.githubusercontent.com) pour télécharger les textes.</string>
+    <string name="about_privacy_text">Aucune donnée n\'est collectée. Les préférences et les marque-pages restent sur l\'appareil. La mise à jour automatique du contenu (au plus une fois par semaine, silencieuse) contacte uniquement GitHub (raw.githubusercontent.com) pour télécharger les textes.</string>
 
     <string name="bookmark">Marque-page</string>
     <string name="bookmarks">Marque-pages</string>
