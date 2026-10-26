@@ -89,11 +89,12 @@ LivreAGPIA/
 
 ## 📖 Sources des textes
 
-- **Texte français** : livre imprimé *AGPIA : les prières des heures* (édition 2009), publié par l'Église
-  copte orthodoxe Archange Michel et Saint Georges (Villejuif, France), sous la bénédiction de S.S. le Pape
-  Chenouda III ; compilé et traduit par le sous-diacre Naguy Wasfy, revu et corrigé par le père Moussa
-  Anba Bishoy et Mme Nadia Simaika-Kelada Antoun, mise en page Magdalena Prod'homme. Le texte a été relu
-  depuis l'édition PDF fournie par l'auteur du projet.
+- **Texte français** : *AGPIA : les prières des heures*, **édition 2009**, Église copte orthodoxe
+  Archange Michel et Saint Georges (Villejuif, France), sous la bénédiction de S.S. le Pape Chenouda III ;
+  compilé et traduit par le sous-diacre Naguy Wasfy, revu et corrigé par le père Moussa Anba Bishoy et
+  Mme Nadia Simaika-Kelada Antoun, correction et mise en page 2009 par Magdalena Prod'homme. L'ouvrage se
+  présente comme une « traduction non officielle » imprimée pour les besoins de la prière en langue française.
+  Le texte a été relu depuis l'édition PDF fournie par l'auteur du projet.
 - **Formules et répons coptes** : texte liturgique copte traditionnel.
 - **Texte arabe** : [st-takla.org](https://st-takla.org/Agpeya_.html) (« الأجبية »), pages des heures
   (`https://st-takla.org/Agpeya/…`) et prières diverses (`https://st-takla.org/Prayers-Slawat/…`).
@@ -101,8 +102,16 @@ LivreAGPIA/
 - **Police copte** : [Noto Sans Coptic](https://fonts.google.com/noto/specimen/Noto+Sans+Coptic),
   SIL Open Font License 1.1 (licence dans `app/src/main/assets/licenses/`).
 
-Les textes liturgiques restent la propriété de leurs auteurs et éditeurs respectifs. L'application est
-distribuée à des fins non commerciales.
+Les textes liturgiques, traductions et illustrations restent attribués à leurs auteurs et éditeurs respectifs.
+
+## 📜 Licence
+
+- **Code source** : [PolyForm Noncommercial 1.0.0](LICENSE). Utilisation, modification et redistribution
+  libres à des fins non commerciales ; tout usage commercial nécessite l'accord préalable de l'auteur
+  (contact via [GitHub](https://github.com/asel-hue)).
+- **Textes liturgiques, traductions et illustrations** : non couverts par cette licence. Ils proviennent
+  des sources citées ci-dessus et restent attribués à leurs auteurs.
+- **Police Noto Sans Coptic** : SIL Open Font License 1.1.
 
 ## ⚠️ Notes importantes
 
