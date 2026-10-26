@@ -22,6 +22,8 @@
     <string name="font_size_value">%1$d sp</string>
     <string name="font_size_preview">Au nom du Père, du Fils et du Saint Esprit, un seul Dieu. Amen !</string>
     <string name="font_size_preview_title">Psaume 50</string>
+    <string name="expand_group">Déplier le service</string>
+    <string name="collapse_group">Replier le service</string>
     <string name="section_title_alignment">Titres des parties</string>
     <string name="align_start">Alignés au début</string>
     <string name="align_center">Centrés</string>
@@ -32,13 +34,43 @@
     <string name="theme_light">Clair</string>
     <string name="theme_dark">Sombre</string>
 
-    <string name="content_language">Langue du contenu</string>
-    <string name="content_language_hint">Les prières s\'affichent dans la langue choisie ; le mode bilingue met le français et l\'arabe côte à côte. Les marque-pages sont communs à toutes les langues.</string>
-    <string name="language_french">Français</string>
-    <string name="language_arabic">العربية</string>
-    <string name="language_both">Français + العربية</string>
+    <string name="content_language">Langues du contenu</string>
+    <string name="content_language_hint">La langue principale fixe l\'interface et le sens de lecture ; une seconde langue, facultative, s\'affiche dans une seconde colonne. Les marque-pages sont communs à toutes les langues.</string>
+    <string name="primary_language">Langue principale</string>
+    <string name="secondary_language">Seconde langue</string>
+    <string name="secondary_none">Aucune</string>
     <string name="switch_language">Changer de langue</string>
     <string name="content_language_set">Contenu : %1$s</string>
+
+    <string name="settings_section_content">Contenu</string>
+    <string name="content_version">Version du contenu : %1$d (%2$s) — source : %3$s</string>
+    <string name="content_source_embedded">embarquée</string>
+    <string name="content_source_downloaded">téléchargée</string>
+    <string name="check_updates">Vérifier les mises à jour</string>
+    <string name="restore_embedded_content">Restaurer le contenu embarqué</string>
+    <string name="update_checking">Vérification en cours…</string>
+    <string name="update_up_to_date">Le contenu est à jour</string>
+    <string name="update_installed">Contenu mis à jour (version %1$d)</string>
+    <string name="update_network_error">Erreur réseau : impossible de vérifier les mises à jour</string>
+    <string name="update_invalid">Mise à jour refusée : contenu distant invalide</string>
+    <string name="content_restored">Contenu embarqué restauré</string>
+    <string name="content_url_override_title">URL de contenu (debug)</string>
+    <string name="content_url_override_hint">Vide = URL par défaut</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+
+    <string name="about">À propos</string>
+    <string name="about_app_version">Version de l\'application : %1$s (%2$d)</string>
+    <string name="about_content_version">Version du contenu : %1$d (%2$s)</string>
+    <string name="about_sources_title">Sources des textes</string>
+    <string name="about_sources_text"><![CDATA[• Texte français : <i>AGPIA : les prières des heures</i>, édition 2009, Église copte orthodoxe Archange Michel et Saint Georges (Villejuif) ; traduction non officielle du sous-diacre Naguy Wasfy.<br/>• Texte arabe : <a href="https://st-takla.org/Agpeya_.html">st-takla.org</a> (الأجبية).<br/>• Formules et répons coptes : texte liturgique copte traditionnel.<br/>• Illustrations : livre français.]]></string>
+    <string name="about_font_title">Police copte</string>
+    <string name="about_font_text"><![CDATA[Le texte copte est rendu avec <a href="https://fonts.google.com/noto/specimen/Noto+Sans+Coptic">Noto Sans Coptic</a>, distribuée sous la SIL Open Font License 1.1.]]></string>
+    <string name="about_view_license">Voir la licence OFL</string>
+    <string name="about_rights_title">Droits et licence</string>
+    <string name="about_rights_text"><![CDATA[Les textes liturgiques, traductions et illustrations restent attribués à leurs auteurs et éditeurs respectifs.<br/><br/>Le code source de l’application est publié sous licence PolyForm Noncommercial 1.0.0 : utilisation, modification et redistribution libres à des fins non commerciales ; tout usage commercial nécessite l’accord de l’auteur.<br/><br/>Code source : <a href="https://github.com/asel-hue/LivreAGPIA">github.com/asel-hue/LivreAGPIA</a>]]></string>
+    <string name="about_privacy_title">Confidentialité</string>
+    <string name="about_privacy_text">Aucune donnée n\'est collectée. Les préférences et les marque-pages restent sur l\'appareil. La vérification des mises à jour du contenu contacte uniquement GitHub (raw.githubusercontent.com) pour télécharger les textes.</string>
 
     <string name="bookmark">Marque-page</string>
     <string name="bookmarks">Marque-pages</string>

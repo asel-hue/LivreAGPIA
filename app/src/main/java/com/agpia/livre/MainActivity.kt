@@ -10,13 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.agpia.livre.data.BILINGUAL_SEPARATOR
 import com.agpia.livre.data.BookRepository
+import com.agpia.livre.data.ContentUpdater
 import com.agpia.livre.databinding.ActivityMainBinding
+import com.agpia.livre.ui.AboutActivity
 import com.agpia.livre.ui.BookmarksActivity
 import com.agpia.livre.ui.ChapterAdapter
 import com.agpia.livre.ui.SearchActivity
 import com.agpia.livre.ui.SettingsActivity
 import com.agpia.livre.utils.PreferencesManager
 import com.agpia.livre.utils.applySystemBarInsets
+import com.google.android.material.snackbar.Snackbar
 
 /** Accueil : liste des heures de prière + reprise de la dernière lecture. */
 class MainActivity : AppCompatActivity() {
@@ -50,11 +53,28 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
         binding.cardResume.setOnClickListener { openReading(prefsManager.getLastChapter()) }
+
+        // Vérification silencieuse des mises à jour du contenu (au plus une fois par 24 h).
+        ContentUpdater.checkIfDue(this) { result ->
+            if (isDestroyed) return@checkIfDue
+            if (result is ContentUpdater.Result.Updated) {
+                refreshChapters()
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.update_installed, result.version),
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        // Titres dans la langue de contenu choisie (peut avoir changé depuis les paramètres).
+        // Titres dans les langues choisies (peuvent avoir changé depuis les paramètres).
+        refreshChapters()
+    }
+
+    private fun refreshChapters() {
         chapterAdapter.submitList(BookRepository.getChapters())
         val last = BookRepository.getChapter(prefsManager.getLastChapter())
         binding.textViewResumeTitle.text = last?.title?.replace(BILINGUAL_SEPARATOR, "\n") ?: ""
@@ -93,6 +113,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            R.id.action_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

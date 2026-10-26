@@ -1,9 +1,12 @@
 package com.agpia.livre.ui
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.agpia.livre.data.BILINGUAL_SEPARATOR
 import com.agpia.livre.data.Chapter
@@ -18,6 +21,15 @@ class ChapterHeaderAdapter : RecyclerView.Adapter<ChapterHeaderAdapter.HeaderVie
 
     private var chapter: Chapter? = null
 
+    /** Suit le réglage « Titres : Centrés » : titre, ligne arabe et trait d'accent centrés. */
+    var titleCentered: Boolean = false
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyItemChanged(0)
+            }
+        }
+
     fun setChapter(chapter: Chapter?) {
         this.chapter = chapter
         notifyItemChanged(0)
@@ -31,14 +43,14 @@ class ChapterHeaderAdapter : RecyclerView.Adapter<ChapterHeaderAdapter.HeaderVie
     }
 
     override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) {
-        holder.bind(chapter)
+        holder.bind(chapter, titleCentered)
     }
 
     class HeaderViewHolder(
         private val binding: ItemChapterHeaderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(chapter: Chapter?) {
+        fun bind(chapter: Chapter?, centered: Boolean) {
             if (chapter == null) {
                 binding.root.isVisible = false
                 return
@@ -48,6 +60,12 @@ class ChapterHeaderAdapter : RecyclerView.Adapter<ChapterHeaderAdapter.HeaderVie
                 if (chapter.isRtl) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
             binding.textViewChapterTitle.textDirection =
                 if (chapter.isRtl) View.TEXT_DIRECTION_RTL else View.TEXT_DIRECTION_LTR
+            // Alignement du titre et du trait d'accent : au début (droite en arabe) ou centré.
+            binding.textViewChapterTitle.textAlignment =
+                if (centered) View.TEXT_ALIGNMENT_CENTER else View.TEXT_ALIGNMENT_VIEW_START
+            binding.accentDivider.updateLayoutParams<LinearLayout.LayoutParams> {
+                gravity = if (centered) Gravity.CENTER_HORIZONTAL else Gravity.START
+            }
             // Titre bilingue : l'arabe sur sa propre ligne plutôt qu'un séparateur en bout de ligne.
             binding.textViewChapterTitle.text = chapter.title.replace(BILINGUAL_SEPARATOR, "\n")
 

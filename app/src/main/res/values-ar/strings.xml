@@ -22,6 +22,8 @@
     <string name="font_size_value">%1$d sp</string>
     <string name="font_size_preview">باسم الآب والابن والروح القدس، الإله الواحد. آمين.</string>
     <string name="font_size_preview_title">مزمور 50</string>
+    <string name="expand_group">توسيع الخدمة</string>
+    <string name="collapse_group">طيّ الخدمة</string>
     <string name="section_title_alignment">عناوين الأجزاء</string>
     <string name="align_start">محاذاة إلى البداية</string>
     <string name="align_center">في الوسط</string>
@@ -32,13 +34,43 @@
     <string name="theme_light">فاتح</string>
     <string name="theme_dark">داكن</string>
 
-    <string name="content_language">لغة المحتوى</string>
-    <string name="content_language_hint">تُعرض الصلوات باللغة المختارة؛ الوضع الثنائي يعرض الفرنسية والعربية جنبًا إلى جنب. العلامات المرجعية مشتركة بين جميع اللغات.</string>
-    <string name="language_french">Français</string>
-    <string name="language_arabic">العربية</string>
-    <string name="language_both">Français + العربية</string>
+    <string name="content_language">لغات المحتوى</string>
+    <string name="content_language_hint">اللغة الرئيسية تحدد واجهة التطبيق واتجاه القراءة؛ ويمكن اختيار لغة ثانية اختيارية تُعرض في عمود ثانٍ. العلامات المرجعية مشتركة بين جميع اللغات.</string>
+    <string name="primary_language">اللغة الرئيسية</string>
+    <string name="secondary_language">اللغة الثانية</string>
+    <string name="secondary_none">بدون</string>
     <string name="switch_language">تغيير اللغة</string>
     <string name="content_language_set">المحتوى: %1$s</string>
+
+    <string name="settings_section_content">المحتوى</string>
+    <string name="content_version">إصدار المحتوى: %1$d (%2$s) — المصدر: %3$s</string>
+    <string name="content_source_embedded">مضمّن</string>
+    <string name="content_source_downloaded">منزَّل</string>
+    <string name="check_updates">التحقق من التحديثات</string>
+    <string name="restore_embedded_content">استعادة المحتوى المضمّن</string>
+    <string name="update_checking">جارٍ التحقق…</string>
+    <string name="update_up_to_date">المحتوى محدَّث</string>
+    <string name="update_installed">تم تحديث المحتوى (الإصدار %1$d)</string>
+    <string name="update_network_error">خطأ في الشبكة: تعذّر التحقق من التحديثات</string>
+    <string name="update_invalid">رُفض التحديث: المحتوى البعيد غير صالح</string>
+    <string name="content_restored">تمت استعادة المحتوى المضمّن</string>
+    <string name="content_url_override_title">عنوان المحتوى (تصحيح)</string>
+    <string name="content_url_override_hint">فارغ = العنوان الافتراضي</string>
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+
+    <string name="about">حول التطبيق</string>
+    <string name="about_app_version">إصدار التطبيق: %1$s (%2$d)</string>
+    <string name="about_content_version">إصدار المحتوى: %1$d (%2$s)</string>
+    <string name="about_sources_title">مصادر النصوص</string>
+    <string name="about_sources_text"><![CDATA[• النص الفرنسي: <i>AGPIA : les prières des heures</i>، طبعة 2009، الكنيسة القبطية الأرثوذكسية للملاك ميخائيل ومار جرجس (فيلجويف، فرنسا)؛ ترجمة غير رسمية للشماس ناجي وصفي.<br/>• النص العربي: <a href="https://st-takla.org/Agpeya_.html">st-takla.org</a> (الأجبية).<br/>• الصيغ والمردّات القبطية: النص الليتورجي القبطي التقليدي.<br/>• الصور: الكتاب الفرنسي.]]></string>
+    <string name="about_font_title">الخط القبطي</string>
+    <string name="about_font_text"><![CDATA[يُعرض النص القبطي بخط <a href="https://fonts.google.com/noto/specimen/Noto+Sans+Coptic">Noto Sans Coptic</a> الموزَّع بموجب رخصة SIL Open Font License 1.1.]]></string>
+    <string name="about_view_license">عرض رخصة OFL</string>
+    <string name="about_rights_title">الحقوق والرخصة</string>
+    <string name="about_rights_text"><![CDATA[تبقى النصوص الليتورجية والترجمات والصور منسوبة إلى مؤلفيها وناشريها.<br/><br/>الشفرة المصدرية للتطبيق منشورة بموجب رخصة PolyForm Noncommercial 1.0.0: الاستخدام والتعديل وإعادة التوزيع مسموح بها لأغراض غير تجارية؛ ويتطلب أي استخدام تجاري موافقة المؤلف.<br/><br/>الشفرة المصدرية: <a href="https://github.com/asel-hue/LivreAGPIA">github.com/asel-hue/LivreAGPIA</a>]]></string>
+    <string name="about_privacy_title">الخصوصية</string>
+    <string name="about_privacy_text">لا تُجمع أي بيانات. تبقى التفضيلات والعلامات المرجعية على الجهاز. التحقق من تحديثات المحتوى يتصل فقط بـ GitHub (raw.githubusercontent.com) لتنزيل النصوص.</string>
 
     <string name="bookmark">علامة مرجعية</string>
     <string name="bookmarks">العلامات المرجعية</string>

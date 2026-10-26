@@ -17,7 +17,11 @@ class PreferencesManager(context: Context) {
         private const val KEY_THEME_MODE = "theme_mode"
         private const val KEY_BOOKMARKS = "bookmarks"
         private const val KEY_LAST_CHAPTER = "last_chapter"
-        private const val KEY_CONTENT_LANGUAGE = "content_language"
+        private const val KEY_CONTENT_LANGUAGE = "content_language" // ancien réglage fr/ar/both, migré
+        private const val KEY_PRIMARY_LANGUAGE = "primary_language"
+        private const val KEY_SECONDARY_LANGUAGE = "secondary_language"
+        private const val KEY_LAST_UPDATE_CHECK = "last_update_check"
+        private const val KEY_CONTENT_BASE_URL_OVERRIDE = "content_base_url_override"
         private const val KEY_EXPAND_ALL = "expand_all"
         private const val KEY_SECTION_TITLE_ALIGNMENT = "section_title_alignment"
 
@@ -36,13 +40,13 @@ class PreferencesManager(context: Context) {
         const val THEME_LIGHT = 1
         const val THEME_DARK = 2
 
-        // Modes de contenu : français, arabe, ou les deux côte à côte (interface en français).
+        // Codes de langue connus (le manifeste du contenu peut en déclarer d'autres).
         const val LANG_FR = "fr"
         const val LANG_AR = "ar"
-        const val LANG_BOTH = "both"
+        private const val LEGACY_LANG_BOTH = "both"
 
-        /** Ordre du cycle de l'action rapide « Changer de langue » de la barre de lecture. */
-        val LANGUAGE_CYCLE = listOf(LANG_FR, LANG_AR, LANG_BOTH)
+        /** Locales pour lesquelles l'interface est traduite (`values/`, `values-ar/`). */
+        val SUPPORTED_UI_LOCALES = setOf(LANG_FR, LANG_AR)
     }
 
     // ---- Taille de police ----
@@ -93,46 +97,89 @@ class PreferencesManager(context: Context) {
         )
     }
 
-    // ---- Langue du contenu (français / arabe / bilingue) ----
+    // ---- Langues du contenu : principale (pilote l'interface et le sens de lecture) + secondaire
+    //      optionnelle (seconde colonne). Au plus deux langues affichées. ----
 
-    fun getContentLanguage(): String =
-        when (prefs.getString(KEY_CONTENT_LANGUAGE, LANG_FR)) {
-            LANG_AR -> LANG_AR
-            LANG_BOTH -> LANG_BOTH
-            else -> LANG_FR
+    /** Migre l'ancien réglage `content_language` (fr / ar / both) vers principale + secondaire. */
+    private fun migrateLegacyLanguage() {
+        if (!prefs.contains(KEY_CONTENT_LANGUAGE)) return
+        val legacy = prefs.getString(KEY_CONTENT_LANGUAGE, LANG_FR)
+        prefs.edit {
+            when (legacy) {
+                LANG_AR -> { putString(KEY_PRIMARY_LANGUAGE, LANG_AR); putString(KEY_SECONDARY_LANGUAGE, "") }
+                LEGACY_LANG_BOTH -> { putString(KEY_PRIMARY_LANGUAGE, LANG_FR); putString(KEY_SECONDARY_LANGUAGE, LANG_AR) }
+                else -> { putString(KEY_PRIMARY_LANGUAGE, LANG_FR); putString(KEY_SECONDARY_LANGUAGE, "") }
+            }
+            remove(KEY_CONTENT_LANGUAGE)
         }
-
-    fun setContentLanguage(language: String) {
-        val value = if (language == LANG_AR || language == LANG_BOTH) language else LANG_FR
-        prefs.edit { putString(KEY_CONTENT_LANGUAGE, value) }
     }
 
-    /** Vrai uniquement en mode arabe seul (interface RTL, texte plus grand). */
-    fun isArabic(): Boolean = getContentLanguage() == LANG_AR
-
-    fun isBilingual(): Boolean = getContentLanguage() == LANG_BOTH
-
-    /** Mode suivant du cycle fr → ar → bilingue → fr. */
-    fun nextContentLanguage(): String {
-        val index = LANGUAGE_CYCLE.indexOf(getContentLanguage())
-        return LANGUAGE_CYCLE[(index + 1) % LANGUAGE_CYCLE.size]
+    /** Code de la langue principale (défaut « fr » ; la validité par rapport au manifeste est vérifiée par le dépôt). */
+    fun getPrimaryLanguage(): String {
+        migrateLegacyLanguage()
+        return prefs.getString(KEY_PRIMARY_LANGUAGE, LANG_FR)?.takeIf { it.isNotBlank() } ?: LANG_FR
     }
 
-    /** Locale de l'interface : arabe en mode arabe seul, français sinon (y compris bilingue). */
-    fun uiLocaleTag(): String = if (isArabic()) LANG_AR else LANG_FR
+    /** Code de la langue secondaire, ou null si aucune. Jamais égale à la principale. */
+    fun getSecondaryLanguage(): String? {
+        migrateLegacyLanguage()
+        val value = prefs.getString(KEY_SECONDARY_LANGUAGE, "")?.takeIf { it.isNotBlank() } ?: return null
+        return if (value == getPrimaryLanguage()) null else value
+    }
+
+    /** Change la langue principale ; si la secondaire devient identique, elle est retirée. */
+    fun setPrimaryLanguage(code: String) {
+        prefs.edit {
+            putString(KEY_PRIMARY_LANGUAGE, code)
+            if (prefs.getString(KEY_SECONDARY_LANGUAGE, "") == code) putString(KEY_SECONDARY_LANGUAGE, "")
+        }
+    }
+
+    /** Change la langue secondaire (null ou vide = aucune ; ignorée si égale à la principale). */
+    fun setSecondaryLanguage(code: String?) {
+        val value = code?.takeIf { it.isNotBlank() && it != getPrimaryLanguage() } ?: ""
+        prefs.edit { putString(KEY_SECONDARY_LANGUAGE, value) }
+    }
 
     /**
-     * Aligne la locale de l'interface sur la langue du contenu (chaînes traduites, sens RTL).
+     * Locale de l'interface pour la langue principale : la locale déclarée dans le manifeste si
+     * l'interface est traduite dans cette locale, sinon le français.
+     */
+    fun uiLocaleTag(declaredUiLocale: String): String {
+        val base = declaredUiLocale.substringBefore('-').substringBefore('_').lowercase()
+        return if (base in SUPPORTED_UI_LOCALES) base else LANG_FR
+    }
+
+    /**
+     * Aligne la locale de l'interface sur la langue principale (chaînes traduites, sens RTL).
      * AppCompat recrée les activités si la locale change ; la valeur est persistée par le
      * système (API 33+) ou par AppCompat via AppLocalesMetadataHolderService (API < 33).
+     * @param declaredUiLocale locale d'interface déclarée dans le manifeste pour la langue principale.
      * @return vrai si la locale a changé (les activités vont être recréées).
      */
-    fun applyAppLocale(): Boolean {
-        val tag = uiLocaleTag()
+    fun applyAppLocale(declaredUiLocale: String): Boolean {
+        val tag = uiLocaleTag(declaredUiLocale)
         val current = AppCompatDelegate.getApplicationLocales().toLanguageTags()
         if (current == tag) return false
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
         return true
+    }
+
+    // ---- Mises à jour de contenu ----
+
+    fun getLastUpdateCheck(): Long = prefs.getLong(KEY_LAST_UPDATE_CHECK, 0L)
+
+    fun setLastUpdateCheck(timestamp: Long) {
+        prefs.edit { putLong(KEY_LAST_UPDATE_CHECK, timestamp) }
+    }
+
+    /** Surcharge de l'URL de contenu (tests en debug uniquement ; null si absente). */
+    fun getContentBaseUrlOverride(): String? = prefs.getString(KEY_CONTENT_BASE_URL_OVERRIDE, null)?.takeIf { it.isNotBlank() }
+
+    fun setContentBaseUrlOverride(url: String?) {
+        prefs.edit {
+            if (url.isNullOrBlank()) remove(KEY_CONTENT_BASE_URL_OVERRIDE) else putString(KEY_CONTENT_BASE_URL_OVERRIDE, url.trim())
+        }
     }
 
     // ---- Tout agrandir / tout réduire : à l'ouverture d'une heure, vrai = toutes les parties dépliées,

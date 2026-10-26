@@ -106,7 +106,8 @@
             android:textIsSelectable="true"
             tools:text="Pitié pour moi, mon Dieu, en Ton amour,\nselon Ta grande miséricorde, efface mon péché…" />
 
-        <!-- Colonne arabe (mode bilingue uniquement), séparée par un filet. -->
+        <!-- Colonne de la langue secondaire (mode bilingue uniquement), séparée par un filet ;
+             son sens de lecture est fixé par l'adaptateur selon la langue. -->
         <View
             android:id="@+id/columnDivider"
             android:layout_width="1dp"
@@ -120,14 +121,13 @@
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/textViewSectionContentArabic"
+            android:id="@+id/textViewSectionContentSecondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:lineSpacingMultiplier="1.3"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.LivreAGPIA.Reading"
-            android:textDirection="rtl"
             android:textIsSelectable="true"
             android:visibility="gone"
             tools:text="ارحمني يا الله كعظيم رحمتك، ومثل كثرة رأفتك تمحو إثمي."

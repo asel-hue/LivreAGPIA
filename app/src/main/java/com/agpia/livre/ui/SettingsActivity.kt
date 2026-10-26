@@ -1,14 +1,21 @@
 package com.agpia.livre.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.agpia.livre.BuildConfig
 import com.agpia.livre.R
+import com.agpia.livre.data.BookRepository
+import com.agpia.livre.data.ContentUpdater
 import com.agpia.livre.databinding.ActivitySettingsBinding
 import com.agpia.livre.utils.PreferencesManager
 import com.agpia.livre.utils.applySystemBarInsets
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
@@ -28,6 +35,7 @@ class SettingsActivity : AppCompatActivity() {
         setupTitleAlignment()
         setupLanguage()
         setupTheme()
+        setupContent()
     }
 
     private fun setupToolbar() {
@@ -58,7 +66,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateFontPreview(size: Float) {
         binding.textViewFontSizeValue.text = getString(R.string.font_size_value, size.toInt())
         // Même règle que l'écran de lecture : l'arabe est affiché un peu plus grand.
-        val effective = if (prefsManager.isArabic()) size + 2f else size
+        val effective = if (BookRepository.primaryLanguage == PreferencesManager.LANG_AR) size + 2f else size
         binding.textViewFontPreview.setTextSize(TypedValue.COMPLEX_UNIT_SP, effective)
         // Même règle que SectionAdapter : titre = corps + 2 sp.
         binding.textViewPreviewTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, effective + 2f)
@@ -87,28 +95,45 @@ class SettingsActivity : AppCompatActivity() {
             else View.TEXT_ALIGNMENT_VIEW_START
     }
 
-    private fun setupLanguage() {
-        binding.toggleLanguage.check(
-            when (prefsManager.getContentLanguage()) {
-                PreferencesManager.LANG_AR -> R.id.buttonLanguageArabic
-                PreferencesManager.LANG_BOTH -> R.id.buttonLanguageBoth
-                else -> R.id.buttonLanguageFrench
-            }
-        )
+    // ---- Langues : listes construites depuis le manifeste du contenu ----
 
-        binding.toggleLanguage.addOnButtonCheckedListener { _, buttonId, isChecked ->
-            if (!isChecked) return@addOnButtonCheckedListener
-            val language = when (buttonId) {
-                R.id.buttonLanguageArabic -> PreferencesManager.LANG_AR
-                R.id.buttonLanguageBoth -> PreferencesManager.LANG_BOTH
-                else -> PreferencesManager.LANG_FR
+    private fun setupLanguage() {
+        val languages = BookRepository.languages
+        val primary = BookRepository.primaryLanguage
+
+        binding.dropdownPrimaryLanguage.setSimpleItems(languages.map { it.nativeName }.toTypedArray())
+        binding.dropdownPrimaryLanguage.setText(
+            languages.find { it.code == primary }?.nativeName ?: primary, false
+        )
+        binding.dropdownPrimaryLanguage.setOnItemClickListener { _, _, position, _ ->
+            val code = languages[position].code
+            if (code == BookRepository.primaryLanguage) return@setOnItemClickListener
+            prefsManager.setPrimaryLanguage(code)
+            setResult(RESULT_OK)
+            // L'interface suit la langue principale : AppCompat recrée les activités si la locale change.
+            if (!prefsManager.applyAppLocale(BookRepository.uiLocaleFor(code))) {
+                refreshSecondaryList()
+                updateFontPreview(binding.sliderFontSize.value)
             }
-            if (language != prefsManager.getContentLanguage()) {
-                prefsManager.setContentLanguage(language)
+        }
+        refreshSecondaryList()
+    }
+
+    /** « Aucune » + toutes les langues sauf la principale. */
+    private fun refreshSecondaryList() {
+        val primary = BookRepository.primaryLanguage
+        val candidates = BookRepository.languages.filter { it.code != primary }
+        val labels = listOf(getString(R.string.secondary_none)) + candidates.map { it.nativeName }
+        binding.dropdownSecondaryLanguage.setSimpleItems(labels.toTypedArray())
+        val current = BookRepository.secondaryLanguage
+        binding.dropdownSecondaryLanguage.setText(
+            candidates.find { it.code == current }?.nativeName ?: labels[0], false
+        )
+        binding.dropdownSecondaryLanguage.setOnItemClickListener { _, _, position, _ ->
+            val code = if (position == 0) null else candidates[position - 1].code
+            if (code != BookRepository.secondaryLanguage) {
+                prefsManager.setSecondaryLanguage(code)
                 setResult(RESULT_OK)
-                // L'interface suit la langue du contenu (arabe seul → arabe, sinon français) :
-                // AppCompat recrée les activités si la locale change.
-                if (!prefsManager.applyAppLocale()) updateFontPreview(binding.sliderFontSize.value)
             }
         }
     }
@@ -135,5 +160,77 @@ class SettingsActivity : AppCompatActivity() {
                 prefsManager.applyNightMode()
             }
         }
+    }
+
+    // ---- Contenu : version, mises à jour, restauration, à propos ----
+
+    private fun setupContent() {
+        refreshContentInfo()
+        binding.buttonCheckUpdates.setOnClickListener { checkUpdates() }
+        binding.buttonRestoreEmbedded.setOnClickListener {
+            ContentUpdater.restoreEmbedded(this)
+            setResult(RESULT_OK)
+            refreshContentInfo()
+            showStatus(getString(R.string.content_restored))
+        }
+        binding.buttonAbout.setOnClickListener { startActivity(Intent(this, AboutActivity::class.java)) }
+        if (BuildConfig.DEBUG) {
+            // Debug : appui long sur la version pour surcharger l'URL de contenu (serveur local de test).
+            binding.textViewContentVersion.setOnLongClickListener { showUrlOverrideDialog(); true }
+        }
+    }
+
+    private fun refreshContentInfo() {
+        val manifest = BookRepository.manifest
+        val source = getString(
+            if (BookRepository.source == BookRepository.Source.DOWNLOADED) R.string.content_source_downloaded
+            else R.string.content_source_embedded
+        )
+        binding.textViewContentVersion.text =
+            getString(R.string.content_version, manifest.contentVersion, manifest.updatedAt, source)
+        binding.buttonRestoreEmbedded.isEnabled = BookRepository.source == BookRepository.Source.DOWNLOADED
+    }
+
+    private fun checkUpdates() {
+        binding.buttonCheckUpdates.isEnabled = false
+        showStatus(getString(R.string.update_checking))
+        ContentUpdater.check(this) { result ->
+            if (isDestroyed) return@check
+            binding.buttonCheckUpdates.isEnabled = true
+            val message = when (result) {
+                ContentUpdater.Result.UpToDate -> getString(R.string.update_up_to_date)
+                is ContentUpdater.Result.Updated -> {
+                    setResult(RESULT_OK)
+                    getString(R.string.update_installed, result.version)
+                }
+                is ContentUpdater.Result.Failed ->
+                    getString(if (result.network) R.string.update_network_error else R.string.update_invalid)
+            }
+            refreshContentInfo()
+            showStatus(message)
+        }
+    }
+
+    private fun showStatus(message: String) {
+        binding.textViewUpdateStatus.text = message
+        binding.textViewUpdateStatus.isVisible = true
+    }
+
+    private fun showUrlOverrideDialog() {
+        val input = EditText(this).apply {
+            setText(prefsManager.getContentBaseUrlOverride().orEmpty())
+            hint = getString(R.string.content_url_override_hint)
+            setSingleLine()
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.content_url_override_title)
+            .setMessage(ContentUpdater.baseUrl(this))
+            .setView(input)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                prefsManager.setContentBaseUrlOverride(input.text?.toString())
+                showStatus(ContentUpdater.baseUrl(this))
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 }

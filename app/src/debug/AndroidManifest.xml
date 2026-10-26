@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Debug uniquement : autorise le HTTP en clair vers localhost pour tester les mises à jour de contenu
+    avec un serveur local (python -m http.server + adb reverse). La release reste HTTPS seulement.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application android:networkSecurityConfig="@xml/network_security_config_debug" />
+
+</manifest>

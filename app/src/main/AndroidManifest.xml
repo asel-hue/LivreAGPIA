@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Vérification des mises à jour du contenu (GitHub uniquement). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".LivreAgpiaApp"
         tools:targetApi="tiramisu"
@@ -41,6 +44,10 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/settings" />
+
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/about" />
 
         <!--
             Persistance de la locale d'application choisie (langue du contenu) sur API < 33 ;

@@ -12,10 +12,14 @@ android {
         applicationId "com.agpia.livre"
         minSdk 24
         targetSdk 36
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Source des mises à jour de contenu (manifest.json + <lang>/chapterN.json), sans republier l'APK.
+        buildConfigField "String", "CONTENT_BASE_URL",
+            "\"https://raw.githubusercontent.com/asel-hue/LivreAGPIA/main/app/src/main/assets/book/\""
     }
 
     buildTypes {
@@ -33,6 +37,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 

@@ -54,8 +54,8 @@ LivreAGPIA/
 │   │   │   ├── MainActivity.kt        # Accueil : liste des heures + reprise
 │   │   │   ├── ReadingActivity.kt     # Lecture (tiroir, psaumes, actions)
 │   │   │   ├── LivreAgpiaApp.kt       # Application : thème, locale, init du contenu
-│   │   │   ├── data/                  # Modèle + contenu FR (chapters/ChapterN.kt), chargement JSON
-│   │   │   ├── ui/                    # Adapters, recherche, marque-pages, paramètres
+│   │   │   ├── data/                  # BookContent (modèle + BookRepository), ContentManifest, ContentUpdater
+│   │   │   ├── ui/                    # Adapters, recherche, marque-pages, paramètres, AboutActivity
 │   │   │   └── utils/                 # Préférences, insets edge-to-edge, images d'heure
 │   │   ├── assets/book/
 │   │   │   ├── manifest.json          # Versions, langues, sha256 des fichiers de contenu
@@ -79,13 +79,35 @@ LivreAGPIA/
 - **Stockage** : SharedPreferences (taille de texte, thème, langue, dernière heure, marque-pages, état « tout agrandir »)
 - **Contenu** : un fichier par heure et par langue dans `assets/book/<lang>/chapterN.json`
   (`{"number","title","sections":[{"id","title","content"[,"kind"[,"groupEnd"]]}]}`, mêmes `id` dans
-  toutes les langues). Le FR est en outre compilé dans `data/chapters/` ; l'AR est lu depuis les assets
-  avec repli silencieux sur le français si un fichier manque. `assets/book/manifest.json` liste les
-  langues, la version du contenu et le sha256 de chaque fichier.
-- **Mise à jour du contenu** : lancer `python scripts/build_content_manifest.py` avant chaque push
-  modifiant `assets/book/` (valide le schéma, recalcule les empreintes, incrémente `contentVersion`).
+  toutes les langues). Toutes les langues sont lues depuis les assets, avec repli silencieux sur le
+  français si un fichier manque. `assets/book/manifest.json` liste les langues, la version du contenu
+  et le sha256 de chaque fichier.
+- **Langues** : langue principale (interface + sens de lecture) et seconde langue facultative
+  (seconde colonne), toutes deux choisies parmi les langues du manifeste.
 - **Release** : `minifyEnabled` + `shrinkResources` (APK non signé : `assembleRelease` ; `res/raw/keep.xml`
   protège les images `hour_*` résolues dynamiquement)
+
+## 🔄 Mise à jour du contenu
+
+L'application vérifie au plus une fois par 24 h (ou via *Paramètres → Vérifier les mises à jour*) si
+une version plus récente du contenu est publiée sur GitHub
+(`raw.githubusercontent.com/asel-hue/LivreAGPIA/main/app/src/main/assets/book/`). Seuls les fichiers
+dont l'empreinte a changé sont téléchargés ; tout est vérifié (sha256, schéma JSON, cohérence entre
+langues) avant un basculement atomique. En cas d'erreur, le contenu précédent est conservé.
+*Paramètres → Restaurer le contenu embarqué* revient au contenu livré avec l'APK.
+
+Pour publier une mise à jour :
+
+1. Modifier les JSON dans `app/src/main/assets/book/<lang>/`.
+2. Lancer `python scripts/build_content_manifest.py` (valide le schéma, recalcule les empreintes,
+   incrémente `contentVersion`).
+3. Commit + push sur `main` : les applications installées récupèrent la mise à jour sous 24 h.
+
+Pour ajouter une langue : créer `assets/book/<code>/chapter1.json … chapter10.json` (mêmes `id` que
+le FR), ajouter une entrée dans `languages` du manifeste (`code`, `name`, `nativeName`, `rtl`,
+`uiLocale`), puis relancer le script. La langue apparaît dans les paramètres sans modification du code.
+Pour une interface traduite, ajouter `res/values-<code>/strings.xml` et le code dans
+`PreferencesManager.SUPPORTED_UI_LOCALES` ; sinon l'interface reste en français.
 
 ## 📖 Sources des textes
 
@@ -121,4 +143,4 @@ Les textes liturgiques, traductions et illustrations restent attribués à leurs
 
 ---
 
-**Version** : 1.2.0 (versionCode 3)
+**Version** : 1.3.0 (versionCode 4)

@@ -62,6 +62,19 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <!-- Paragraphe de l'écran « À propos ». -->
+    <style name="Widget.LivreAGPIA.AboutBody" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodyMedium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:lineSpacingMultiplier">1.15</item>
+    </style>
+
     <style name="ShapeAppearance.LivreAGPIA.HourImage" parent="ShapeAppearance.Material3.Corner.Medium">
         <item name="cornerSize">12dp</item>
     </style>
