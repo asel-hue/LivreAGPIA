@@ -5,6 +5,14 @@
     <!-- Vérification des mises à jour du contenu (GitHub uniquement). -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Jour liturgique fourni par KatamerosCopte (permission de niveau signature : même clé). -->
+    <uses-permission android:name="com.copte.katameros.permission.READ_LITURGY" />
+
+    <!-- Android 11+ : visibilité du fournisseur de KatamerosCopte. -->
+    <queries>
+        <provider android:authorities="com.copte.katameros.liturgy" />
+    </queries>
+
     <application
         android:name=".LivreAgpiaApp"
         tools:targetApi="tiramisu"
