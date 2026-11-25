@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.agpia.livre.data.BILINGUAL_SEPARATOR
 import com.agpia.livre.data.BookRepository
 import com.agpia.livre.data.ContentUpdater
+import com.agpia.livre.data.CopticToday
 import com.agpia.livre.databinding.ActivityMainBinding
 import com.agpia.livre.ui.AboutActivity
 import com.agpia.livre.ui.BookmarksActivity
@@ -19,12 +22,15 @@ import com.agpia.livre.ui.SearchActivity
 import com.agpia.livre.ui.SettingsActivity
 import com.agpia.livre.utils.PreferencesManager
 import com.agpia.livre.utils.applySystemBarInsets
+import java.time.LocalDate
+import java.util.concurrent.Executors
 
 /** Accueil : liste des heures de prière + reprise de la dernière lecture. */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var chapterAdapter: ChapterAdapter
     private lateinit var prefsManager: PreferencesManager
+    private val copticExecutor = Executors.newSingleThreadExecutor { r -> Thread(r, "coptic-day") }
 
     /** Recherche et marque-pages renvoient une position (heure, partie) à ouvrir. */
     private val navigateLauncher =
@@ -52,6 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
         binding.cardResume.setOnClickListener { openReading(prefsManager.getLastChapter()) }
+        binding.buttonDailyReadings.setOnClickListener {
+            if (!CopticToday.openReadings(this, LocalDate.now())) {
+                Toast.makeText(this, R.string.daily_readings_unavailable, Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // Vérification silencieuse des mises à jour du contenu, en arrière-plan (au plus une fois par semaine).
         // Rien n'est affiché : un nouveau contenu est pris en compte au prochain chargement d'une heure.
@@ -62,6 +73,31 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // Titres dans les langues choisies (peuvent avoir changé depuis les paramètres).
         refreshChapters()
+        refreshCopticDay()
+    }
+
+    /**
+     * Date copte (calculée localement) ; titre du jour et bouton « Lectures du jour »
+     * seulement si KatamerosCopte est installée (lecture du fournisseur hors du thread principal).
+     */
+    private fun refreshCopticDay() {
+        binding.textViewCopticDate.text = CopticToday.copticDateLabel(this)
+        val installed = CopticToday.isKatamerosInstalled(this)
+        binding.buttonDailyReadings.visibility = if (installed) View.VISIBLE else View.GONE
+        if (!installed) {
+            binding.textViewLiturgicalTitle.visibility = View.GONE
+            return
+        }
+        val appContext = applicationContext
+        val config = resources.configuration
+        copticExecutor.execute {
+            val title = CopticToday.liturgicalTitle(appContext.createConfigurationContext(config))
+            runOnUiThread {
+                if (isDestroyed) return@runOnUiThread
+                binding.textViewLiturgicalTitle.text = title
+                binding.textViewLiturgicalTitle.visibility = if (title != null) View.VISIBLE else View.GONE
+            }
+        }
     }
 
     private fun refreshChapters() {
@@ -84,6 +120,11 @@ class MainActivity : AppCompatActivity() {
             if (sectionId > 0) putExtra(ReadingActivity.EXTRA_VERSE_NUMBER, sectionId)
         }
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        copticExecutor.shutdown()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

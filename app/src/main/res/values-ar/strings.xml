@@ -87,4 +87,24 @@
 
     <string name="navigation_drawer_open">فتح قائمة السواعي</string>
     <string name="navigation_drawer_close">إغلاق قائمة السواعي</string>
+
+    <!-- اليوم القبطي ورابط القطمارس -->
+    <string name="coptic_date_format">%1$d %2$s %3$d ش</string>
+    <string name="daily_readings">قراءات اليوم</string>
+    <string name="daily_readings_unavailable">ثبّت تطبيق القطمارس القبطي لقراءة قراءات اليوم.</string>
+    <string-array name="coptic_months">
+        <item>توت</item>
+        <item>بابه</item>
+        <item>هاتور</item>
+        <item>كيهك</item>
+        <item>طوبه</item>
+        <item>أمشير</item>
+        <item>برمهات</item>
+        <item>برموده</item>
+        <item>بشنس</item>
+        <item>بؤونه</item>
+        <item>أبيب</item>
+        <item>مسرى</item>
+        <item>النسيء</item>
+    </string-array>
 </resources>

@@ -87,4 +87,24 @@
 
     <string name="navigation_drawer_open">Ouvrir le menu des heures</string>
     <string name="navigation_drawer_close">Fermer le menu des heures</string>
+
+    <!-- Jour copte (coptic-calendar-core) et lien vers KatamerosCopte -->
+    <string name="coptic_date_format">%1$d %2$s %3$d ap. M.</string>
+    <string name="daily_readings">Lectures du jour</string>
+    <string name="daily_readings_unavailable">Installez Katameros copte pour lire les lectures du jour.</string>
+    <string-array name="coptic_months">
+        <item>Thout</item>
+        <item>Babah</item>
+        <item>Hatour</item>
+        <item>Kiahk</item>
+        <item>Toubah</item>
+        <item>Amshir</item>
+        <item>Baramhat</item>
+        <item>Baramoudah</item>
+        <item>Bashans</item>
+        <item>Baounah</item>
+        <item>Abib</item>
+        <item>Mesra</item>
+        <item>Nasie</item>
+    </string-array>
 </resources>

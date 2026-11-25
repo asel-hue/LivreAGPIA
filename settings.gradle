@@ -10,6 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // coptic-calendar-core (calendrier copte et contrat d'intégration avec KatamerosCopte)
+        maven { url 'https://jitpack.io' }
     }
 }
 

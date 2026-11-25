@@ -3,3 +3,12 @@
 plugins {
     id 'com.android.application' version '9.2.1' apply false
 }
+
+// OneDrive verrouille les fichiers des dossiers build/ pendant la synchronisation et fait échouer les builds :
+// sous Windows, quand le projet est dans OneDrive, les sorties de build vont dans %LOCALAPPDATA%.
+def localAppData = System.getenv('LOCALAPPDATA')
+if (localAppData != null && rootDir.absolutePath.contains('OneDrive')) {
+    allprojects { p ->
+        p.layout.buildDirectory.set(new File(localAppData, "gradle-builds/${rootProject.name}/${p.path == ':' ? 'root' : p.name}"))
+    }
+}
